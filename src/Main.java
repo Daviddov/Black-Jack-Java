@@ -2,8 +2,8 @@
 public class Main {
 
 	public static void main(String[] args) {
-		Package gamePack = new Package();
-		
+		GameBoard newGame = new GameBoard();
+		newGame.cardPackage.pickCard();
 
 	}
 

@@ -7,26 +7,31 @@ public class Card {
 	public Card(int num, String type) {
 		this.type = type;
 		this.num = num;
-		
-		if(type =="club"|| type =="tiltan") {
+
+		if (type == "club" || type == "tiltan") {
 			this.color = "black";
-		}else {
+		} else {
 			this.color = "red";
 		}
 	}
-	
+
 	public int getNum() {
+		if (num > 10) {
+			num = 10;
+		}
 		return num;
 	}
+
 	public String getColor() {
 		return color;
 	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void printInfo() {
-		System.out.println(this.num);
-		System.out.println(this.color);
-		System.out.println(this.type);
+		System.out.println(this.num + " " + this.color + " " + this.type);
+
 	}
 }
