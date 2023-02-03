@@ -16,9 +16,6 @@ public class Card {
 	}
 
 	public int getNum() {
-		if (num > 10) {
-			num = 10;
-		}
 		return num;
 	}
 

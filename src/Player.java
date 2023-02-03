@@ -16,11 +16,18 @@ private Card[] addCardPlace() {
 	}
 	return newCardArr;
 }
+private int getNum(Card card) {
+	int num = card.getNum();
+	if (num > 10) {
+		num = 10;
+	}
+	return num;
+}
 
 public void takeCard(Card card) {
 	playerCards = addCardPlace();
 	playerCards[playerCards.length-1] = card;
-	sumCards += card.getNum();
+	sumCards += getNum(card);
 }
 
  public Card[] getAndPrintPlayerCards() {
