@@ -12,17 +12,16 @@ private void bulidPackege(String type, int index) {
 
 public CardsPackage() {
 	cards = new Card[52];
-	bulidPackege("club", 0);
-	bulidPackege("tiltan",12);
-	bulidPackege("heart",25);
-	bulidPackege("dimond", 38);
+	bulidPackege("Clubs", 0);
+	bulidPackege("Spades",12);
+	bulidPackege("Hearts",25);
+	bulidPackege("Diamonds", 38);
 	
 }
  
 public Card pickCard() {
 		Card pickCard = cards[curnetCardPick];
 		curnetCardPick++;
-//		pickCard.printInfo();
 		return pickCard;
 }
 
@@ -38,18 +37,18 @@ private Card[] fiterNull(Card[] cards) {
 	return copyCards;
 }
 
-public void shuffelPack() {
-	Card[] shuffelPack = new Card[52];
-	for (int i = 0; i < shuffelPack.length; i++) {
+public void shufflePack() {
+	Card[] shufflePack = new Card[52];
+	for (int i = 0; i < shufflePack.length; i++) {
 		int random = (int)(Math.random()*cards.length);
 
-		shuffelPack[i] = cards[random];
+		shufflePack[i] = cards[random];
 		cards[random] = null;
 		cards = fiterNull(cards);
 		}
 		cards = new Card[52];
-	for (int i = 0; i < shuffelPack.length; i++) {
-		cards[i] = shuffelPack[i];
+	for (int i = 0; i < shufflePack.length; i++) {
+		cards[i] = shufflePack[i];
 	}
 	}
 	
