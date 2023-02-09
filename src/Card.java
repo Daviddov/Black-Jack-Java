@@ -28,6 +28,7 @@ public class Card {
 	public String getType() {
 		return type;
 	}
+
 	public String getShapeASCII() {
 		return shapeASCII;
 	}
@@ -75,7 +76,6 @@ public class Card {
 
 	}
 
-
 	private void printTen() {
 		System.out.println(" _____");
 		System.out.println("|" + 10 + "   |");
@@ -83,6 +83,7 @@ public class Card {
 		System.out.println("|___" + 10 + "|");
 		System.out.println();
 	}
+
 	private void print(int num) {
 		System.out.println(" _____");
 		System.out.println("|" + num + "    |");
