@@ -6,82 +6,80 @@ public class GameBoard {
 	private Player player2;
 	private Player currentPlayer;
 	private boolean gameOver = false;
-
+	private int dackRoundNum = 0;
+	
 	public GameBoard() {
 		Scanner in = new Scanner(System.in);
-		
+
 		System.out.println("Please enter player name:");
 		String playerName = in.next();
+
 		player1 = new Player(playerName);
 		player2 = new Player("Computer");
-		
+
 		cardPackage = new CardsPackage();
 		cardPackage.shufflePack();
 		currentPlayer = player1;
-		System.out.println("You have "+ currentPlayer.getDullers()+" Dullers, Enter your bet:");
-		currentPlayer.setBat(in.nextInt());
+
 		play();
 	}
 
 	public void play() {
-
-		System.out.println("Hello " + currentPlayer.getName());
+		dackRoundNum++;
+		startTheGame();
 
 		Scanner in = new Scanner(System.in);
-		while (!gameOver()) {
+		while (!isGameOver()) {
 
-				System.out.println(currentPlayer.getName() + " turn");
-				System.out.println("You bet is "+ currentPlayer.getBet());
+			System.out.println("You bet is " + currentPlayer.getBet());
+			System.out.println("Enter your move: 1. Hit		2.Stend		3.double");
 
-				System.out.println("Enter your move: 1. Hit		2.Stend		3.fold");
-
-				if (currentPlayer.isInTheGame()) {
+			if (currentPlayer.getIsInTheGame()) {
 				int chois = in.nextInt();
 				if (chois == 1) {
-					makeTurn();
+					hit();
 
-					player1.getAndPrintPlayerCards();
+					System.out.println(player2.getName() + " hend");
+					printFirstCardWithBack();
+
+					player1.printPlayerCards();
 					System.out.println(player1.getName() + " Points : " + player1.getSum());
-					System.out.println();
 
 				} else if (chois == 2) {
 					stand();
 				} else if (chois == 3) {
-					outOfRound();
+					currentPlayer.setBat(currentPlayer.getBet());
 				}
-			} else {
-				stand();
-
 			}
 		}
 
-		int chois = 0;
-		while (chois != 4 || chois != 3) {
-			System.out.println("3. play again:");
-			System.out.println("4. for reset game:");
-			chois = in.nextInt();
-			if (chois == 3) {
-				nextRound();
-			} else if (chois == 4) {
-				GameBoard newGame = new GameBoard();
-			}
-		}
+		endOfRound();
 
 	}
 
-	private void makeTurn() {
-		hit();
-		computerTurn();
+	private void startTheGame() {
+		if (currentPlayer.getDullers() <= 0) {
+			endOfRound();
+		}
+		System.out.println("Hello " + currentPlayer.getName());
+		chooseBet();
+		System.out.println("You bet is " + currentPlayer.getBet());
+		makeUserAndComputerTurn();
+		makeUserAndComputerTurn();
+
+		System.out.println(player2.getName() + " hend");
+		printFirstCardWithBack();
+
+		System.out.println();
+
+		System.out.println(player1.getName() + " hend");
+		player1.printPlayerCards();
+		System.out.println(player1.getName() + " Points : " + player1.getSum());
+
 	}
 
 	private void hit() {
-		if (!gameOver()) {
-
-			if (!currentPlayer.isInTheGame()) {
-				computerTurn();
-				return;
-			}
-
+		if (!isGameOver()) {
 			currentPlayer.takeCard(cardPackage.pickCard());
 			if (isBurned(currentPlayer)) {
 				System.out.println(currentPlayer.getName() + " is burned " + currentPlayer.getSum());
@@ -89,29 +87,22 @@ public class GameBoard {
 			} else if (isBlackJack(currentPlayer)) {
 				System.out.println(currentPlayer.getName() + " have Black jack");
 			}
-			nextPlayer();
 
-		}
-	}
-
-	private void computerTurn() {
-		double random = Math.random();
-		if (random > 0.3) {
-			hit();
-
-		} else if (currentPlayer.getSum() > 15) {
-			random = Math.random();
-			if (random > 0.5) {
-				nextPlayer();
-			} else {
-				outOfRound();
-			}
 		}
 	}
 
 	private void stand() {
 		nextPlayer();
 		computerTurn();
+		gameOver = true;
+	}
+
+	private void computerTurn() {
+		while (currentPlayer.getSum() < 17) {
+			hit();
+
+		}
+		nextPlayer();
 	}
 
 	private void nextPlayer() {
@@ -120,6 +111,14 @@ public class GameBoard {
 		} else {
 			currentPlayer = player1;
 		}
+	}
+
+	private void makeUserAndComputerTurn() {
+		hit();
+		nextPlayer();
+		hit();
+		nextPlayer();
+
 	}
 
 	private boolean isBurned(Player playerName) {
@@ -138,12 +137,9 @@ public class GameBoard {
 		return false;
 	}
 
-	public boolean gameOver() {
+	public boolean isGameOver() {
 		if (gameOver) {
-			player1.getAndPrintPlayerCards();
-			System.out.println(player1.getName() + " Points : " + player1.getSum());
-			player2.getAndPrintPlayerCards();
-			System.out.println(player2.getName() + " Points : " + player2.getSum());
+			printPlayersCards();
 			chackWinning();
 			return true;
 		}
@@ -159,26 +155,80 @@ public class GameBoard {
 		} else {
 			if (player1.getSum() > player2.getSum()) {
 				winner = player1;
-			} else {
+			} else if (player2.getSum() > player1.getSum()) {
 				winner = player2;
+			} else {
+				winner.setDullers(winner.getBet());
+				System.out.println("Dead heat");
+
 			}
 		}
+
+		winner.setDullers(winner.getBet() * 2);
 		System.out.println(winner.getName() + " is won");
 
 	}
 
-	private void nextRound() {
+	private void playAgain() {
 		gameOver = false;
-		player1.resetHend();
-		player2.resetHend();
+		player1.setResetHend();
+		player2.setResetHend();
 		currentPlayer = player1;
 		play();
-	}
-
-	private void outOfRound() {
-		currentPlayer.fold();
-		if (!player1.isInTheGame() && !player2.isInTheGame()) {
-			gameOver = true;
+		if(dackRoundNum > 7) {
+			newDeck();
 		}
 	}
+
+	private void newDeck() {
+		dackRoundNum=0;
+		cardPackage = new CardsPackage();
+		cardPackage.shufflePack();
+	}
+	
+	private void chooseBet() {
+		Scanner in = new Scanner(System.in);
+		System.out.println("You have $" + currentPlayer.getDullers());
+		System.out.println("Enter your bet: 1. $50		2. $100			3. $250");
+		int bet = in.nextInt();
+		if (bet == 1) {
+			currentPlayer.setBat(50);
+		} else if (bet == 2) {
+			currentPlayer.setBat(100);
+		} else if (bet == 3) {
+			currentPlayer.setBat(250);
+		}
+
+	}
+
+	private void endOfRound() {
+		Scanner in = new Scanner(System.in);
+		int chois = 0;
+		while (chois != 1 || chois != 2) {
+			System.out.println("You have $" + currentPlayer.getDullers());
+			System.out.println("1. play again:");
+			System.out.println("2. for reset game:");
+			chois = in.nextInt();
+			if (chois == 1) {
+				playAgain();
+			} else if (chois == 2) {
+				GameBoard newGame = new GameBoard();
+			}
+		}
+
+	}
+
+	private void printFirstCardWithBack() {
+		player2.getCard(0).printCard();
+		player2.getCard(0).printBackCard();
+		System.out.println(player2.getName() + " Points : " + player2.getCard(0).getNum("round"));
+	}
+
+	private void printPlayersCards() {
+		player2.printPlayerCards();
+		System.out.println(player2.getName() + " Points : " + player2.getSum());
+		player1.printPlayerCards();
+		System.out.println(player1.getName() + " Points : " + player1.getSum());
+	}
+
 }

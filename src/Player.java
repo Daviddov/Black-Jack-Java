@@ -1,8 +1,8 @@
 
 public class Player {
 	private String playerName;
-	private int sumCards = 0, index = 0, dullars = 50, bet=0;
-	
+	private int index = 0, dullars = 500, bet = 0;
+
 	private Card[] playerCards = new Card[0];
 	private boolean inTheGame = true;
 
@@ -21,18 +21,16 @@ public class Player {
 	public void takeCard(Card card) {
 		playerCards = addCardPlace();
 		playerCards[playerCards.length - 1] = card;
-		sumCards += getNum(card);
+//		sumCards += getNum(card);
 	}
 
-	public Card[] getAndPrintPlayerCards() {
-		for (int i = 0; i < playerCards.length; i++) {
-			int num = playerCards[i].getNum();
-//			playerCards[i].printCard();
-		}
-		printCards();
-		return playerCards;
-	}
 
+
+	public Card getCard(int index) {
+		
+		return playerCards[index];
+		
+	}
 	public void printCards() {
 		int n = playerCards.length;
 		int num;
@@ -71,6 +69,18 @@ public class Player {
 	}
 
 	public int getSum() {
+		int sumCards = 0;
+		boolean ace = false;
+		for (int i = 0; i < playerCards.length; i++) {
+			if (playerCards[i].getNum() == 1 && !ace ) {
+				ace = true;
+				sumCards+=10;
+			}
+			sumCards += playerCards[i].getNum();
+			if(ace && sumCards > 21) {
+				sumCards -= 10;
+			}
+		}
 		return sumCards;
 	}
 
@@ -104,40 +114,43 @@ public class Player {
 		}
 		return rank;
 	}
-public int getBet() {
-	return bet;
-}
-public int getDullers() {
-	return dullars;
-}
+
+	public int getBet() {
+		return bet;
+	}
+
+	public int getDullers() {
+		return dullars;
+	}
+
+	public boolean getIsInTheGame() {
+		return inTheGame;
+	}
+	
 	public void setBat(int bet) {
-		if(bet <= dullars) {
+		if (bet <= dullars) {
 			dullars -= bet;
 			this.bet += bet;
 		}
-		}
+	}
+
+	public void setDullers(int dullars) {
+		this.dullars += dullars;
+	}
+
 	
-	public void fold() {
-		inTheGame = false;
-		System.out.println(playerName + " fold");
-	}
-
-//	public void setWon() {
-//		winning++;
-//	}
-//
-//	public int getWinning() {
-//		return winning;
-//	}
-
-	public boolean isInTheGame() {
-		return inTheGame;
-	}
-
-	public void resetHend() {
+	public void setResetHend() {
 		playerCards = new Card[0];
-		sumCards = 0;
 		index = 0;
 		inTheGame = true;
+		bet = 0;
+	}
+	
+	public void printPlayerCards() {
+		for (int i = 0; i < playerCards.length; i++) {
+			int num = playerCards[i].getNum();
+		}
+		printCards();
+		
 	}
 }

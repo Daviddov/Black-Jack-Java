@@ -20,6 +20,12 @@ public class Card {
 	public int getNum() {
 		return num;
 	}
+	public int getNum(String round) {
+		if(num>10) {
+			num = 10;
+		}
+		return num;
+	}
 
 	public String getColor() {
 		return color;
@@ -33,7 +39,7 @@ public class Card {
 		return shapeASCII;
 	}
 
-	public void shapeASCII() {
+	private void shapeASCII() {
 		switch (type) {
 		case "Clubs":
 			shapeASCII = "\u2663";
@@ -75,7 +81,12 @@ public class Card {
 		}
 
 	}
-
+public void printBackCard() {
+	 System.out.println(" _____");
+     System.out.println("|#####|");
+     System.out.println("|#####|");
+     System.out.println("|_____|");
+}
 	private void printTen() {
 		System.out.println(" _____");
 		System.out.println("|" + 10 + "   |");
