@@ -116,7 +116,7 @@ public class GameBoard {
 	private void makeUserAndComputerTurn() {
 		hit();
 		nextPlayer();
-		hit();
+		currentPlayer.takeCard(cardPackage.pickCard());
 		nextPlayer();
 
 	}
@@ -141,6 +141,7 @@ public class GameBoard {
 		if (gameOver) {
 			printPlayersCards();
 			chackWinning();
+			System.out.println("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ");
 			return true;
 		}
 		return false;
@@ -160,7 +161,7 @@ public class GameBoard {
 			} else {
 				winner.setDullers(winner.getBet());
 				System.out.println("Dead heat");
-
+				return;
 			}
 		}
 
@@ -175,7 +176,7 @@ public class GameBoard {
 		player2.setResetHend();
 		currentPlayer = player1;
 		play();
-		if(dackRoundNum > 7) {
+		if(dackRoundNum > 5) {
 			newDeck();
 		}
 	}
@@ -221,7 +222,7 @@ public class GameBoard {
 	private void printFirstCardWithBack() {
 		player2.getCard(0).printCard();
 		player2.getCard(0).printBackCard();
-		System.out.println(player2.getName() + " Points : " + player2.getCard(0).getNum("round"));
+		System.out.println(player2.getName() + " Points : " + player2.getCard(0).getNumRound());
 	}
 
 	private void printPlayersCards() {
@@ -229,6 +230,7 @@ public class GameBoard {
 		System.out.println(player2.getName() + " Points : " + player2.getSum());
 		player1.printPlayerCards();
 		System.out.println(player1.getName() + " Points : " + player1.getSum());
+		System.out.println();
 	}
 
 }

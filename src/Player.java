@@ -24,13 +24,12 @@ public class Player {
 //		sumCards += getNum(card);
 	}
 
-
-
 	public Card getCard(int index) {
-		
+
 		return playerCards[index];
-		
+
 	}
+
 	public void printCards() {
 		int n = playerCards.length;
 		int num;
@@ -70,15 +69,18 @@ public class Player {
 
 	public int getSum() {
 		int sumCards = 0;
-		boolean ace = false;
+		int countAces = 0;
 		for (int i = 0; i < playerCards.length; i++) {
-			if (playerCards[i].getNum() == 1 && !ace ) {
-				ace = true;
-				sumCards+=10;
+			if (playerCards[i].getNumRound() == 1) {
+				countAces++;
+				sumCards += 10;
 			}
-			sumCards += playerCards[i].getNum();
-			if(ace && sumCards > 21) {
-				sumCards -= 10;
+			sumCards += playerCards[i].getNumRound();
+			if (sumCards > 21) {
+				while (countAces > 0 && sumCards > 21) {
+					sumCards -= 10;
+					countAces--;
+				}
 			}
 		}
 		return sumCards;
@@ -126,7 +128,7 @@ public class Player {
 	public boolean getIsInTheGame() {
 		return inTheGame;
 	}
-	
+
 	public void setBat(int bet) {
 		if (bet <= dullars) {
 			dullars -= bet;
@@ -138,19 +140,18 @@ public class Player {
 		this.dullars += dullars;
 	}
 
-	
 	public void setResetHend() {
 		playerCards = new Card[0];
 		index = 0;
 		inTheGame = true;
 		bet = 0;
 	}
-	
+
 	public void printPlayerCards() {
 		for (int i = 0; i < playerCards.length; i++) {
 			int num = playerCards[i].getNum();
 		}
 		printCards();
-		
+
 	}
 }

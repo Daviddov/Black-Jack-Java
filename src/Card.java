@@ -20,7 +20,7 @@ public class Card {
 	public int getNum() {
 		return num;
 	}
-	public int getNum(String round) {
+	public int getNumRound() {
 		if(num>10) {
 			num = 10;
 		}
