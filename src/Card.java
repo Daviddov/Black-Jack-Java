@@ -1,9 +1,9 @@
 
 public class Card {
 	private int num;
-	public String type;
-	public String color;
-	public String shapeASCII;
+	private String type;
+	private String color;
+	private String shapeASCII;
 
 	public Card(int num, String type) {
 		this.type = type;
@@ -17,11 +17,18 @@ public class Card {
 		}
 	}
 
+	public Card(String type) {
+		this.type = type;
+		this.num = 100;
+		this.color = "black";
+	}
+
 	public int getNum() {
 		return num;
 	}
+
 	public int getNumRound() {
-		if(num>10) {
+		if (num > 10) {
 			num = 10;
 		}
 		return num;
@@ -49,6 +56,9 @@ public class Card {
 			break;
 		case "Diamonds":
 			shapeASCII = "\u2662";
+			break;
+		case "Juker":
+			shapeASCII = "JOKER";
 			break;
 		default:
 			shapeASCII = "\u2661";
@@ -81,12 +91,20 @@ public class Card {
 		}
 
 	}
-public void printBackCard() {
-	 System.out.println(" _____");
-     System.out.println("|#####|");
-     System.out.println("|#####|");
-     System.out.println("|_____|");
-}
+
+	public void printBackCard() {
+		System.out.println(" _____");
+		System.out.println("|#####|");
+		System.out.println("|#####|");
+		System.out.println("|_____|");
+	}
+	public void printJokerCard() {
+		System.out.println(" _____");
+		System.out.println("|JOKER|");
+		System.out.println("|(_ _)|");
+		System.out.println("|_____|");
+	}
+
 	private void printTen() {
 		System.out.println(" _____");
 		System.out.println("|" + 10 + "   |");

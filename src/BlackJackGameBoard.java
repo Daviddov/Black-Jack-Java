@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class GameBoard {
+public class BlackJackGameBoard {
 	CardsPackage cardPackage;
 	private Player player1;
 	private Player player2;
@@ -8,7 +8,7 @@ public class GameBoard {
 	private boolean gameOver = false;
 	private int dackRoundNum = 0;
 	
-	public GameBoard() {
+	public BlackJackGameBoard() {
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("Please enter player name:");
@@ -213,7 +213,7 @@ public class GameBoard {
 			if (chois == 1) {
 				playAgain();
 			} else if (chois == 2) {
-				GameBoard newGame = new GameBoard();
+				BlackJackGameBoard newGame = new BlackJackGameBoard();
 			}
 		}
 
