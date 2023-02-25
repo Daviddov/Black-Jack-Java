@@ -1,128 +1,31 @@
 
 public class Player {
 	private String playerName;
-	private int index = 0, dullars = 500, bet = 0;
-
-	private Card[] playerCards = new Card[0];
+	private int index = 0, dollars = 500, bet = 0;
 	private boolean inTheGame = true;
+	private Card[] playerCards = new Card[0];
 
 	public Player(String name) {
 		this.playerName = name;
 	}
 
-	private Card[] addCardPlace() {
-		Card[] newCardArr = new Card[playerCards.length + 1];
-		for (int i = 0; i < playerCards.length; i++) {
-			newCardArr[i] = playerCards[i];
-		}
-		return newCardArr;
+	public Card[] getPlayerCards() {
+		return playerCards;
 	}
-
-	public void takeCard(Card card) {
-		playerCards = addCardPlace();
-		playerCards[playerCards.length - 1] = card;
-//		sumCards += getNum(card);
-	}
-
 	public Card getCard(int index) {
-
 		return playerCards[index];
-
-	}
-
-	public void printCards() {
-		int n = playerCards.length;
-		int num;
-		for (int i = 0; i < n; i++) {
-			System.out.print(" _____   ");
-		}
-		System.out.println();
-
-		for (int i = 0; i < n; i++) {
-			num = playerCards[i].getNum();
-			if (num < 10 && num > 1) {
-				System.out.print("|" + num + "    |  ");
-			} else if (num == 10) {
-				System.out.print("|" + num + "   |  ");
-			} else {
-				System.out.print("|" + getRankOfNum(num) + "    |  ");
-			}
-		}
-		System.out.println();
-		for (int i = 0; i < n; i++) {
-			System.out.print("|  " + playerCards[i].getShapeASCII() + "  |  ");
-		}
-		System.out.println();
-		for (int i = 0; i < n; i++) {
-			num = playerCards[i].getNum();
-			if (num < 10 && num > 1) {
-				System.out.print("|____" + num + "|  ");
-			} else if (num == 10) {
-				System.out.print("|___" + num + "|  ");
-			} else {
-				System.out.print("|____" + getRankOfNum(num) + "|  ");
-			}
-
-		}
-		System.out.println();
-	}
-
-	public int getSum() {
-		int sumCards = 0;
-		int countAces = 0;
-		for (int i = 0; i < playerCards.length; i++) {
-			if (playerCards[i].getNumRound() == 1) {
-				countAces++;
-				sumCards += 10;
-			}
-			sumCards += playerCards[i].getNumRound();
-			if (sumCards > 21) {
-				while (countAces > 0 && sumCards > 21) {
-					sumCards -= 10;
-					countAces--;
-				}
-			}
-		}
-		return sumCards;
 	}
 
 	public String getName() {
 		return playerName;
 	}
 
-	private int getNum(Card card) {
-		int num = card.getNum();
-		if (num > 10) {
-			num = 10;
-		}
-		return num;
-	}
-
-	private char getRankOfNum(int num) {
-		char rank;
-		switch (num) {
-		case 1:
-			rank = 'A';
-			break;
-		case 11:
-			rank = 'J';
-			break;
-		case 12:
-			rank = 'Q';
-			break;
-		default:
-			rank = 'K';
-			break;
-		}
-		return rank;
-	}
-
 	public int getBet() {
 		return bet;
 	}
 
-	public int getDullers() {
-		return dullars;
+	public int getDollars() {
+		return dollars;
 	}
 
 	public boolean getIsInTheGame() {
@@ -130,14 +33,14 @@ public class Player {
 	}
 
 	public void setBat(int bet) {
-		if (bet <= dullars) {
-			dullars -= bet;
+		if (bet <= dollars) {
+			dollars -= bet;
 			this.bet += bet;
 		}
 	}
 
-	public void setDullers(int dullars) {
-		this.dullars += dullars;
+	public void setDollars(int dollars) {
+		this.dollars += dollars;
 	}
 
 	public void setResetHend() {
@@ -154,4 +57,29 @@ public class Player {
 		printCards();
 
 	}
+
+	private Card[] addCardPlace() {
+		Card[] newCardArr = new Card[playerCards.length + 1];
+		for (int i = 0; i < playerCards.length; i++) {
+			newCardArr[i] = playerCards[i];
+		}
+		return newCardArr;
+	}
+
+	public void takeCard(Card card) {
+		playerCards = addCardPlace();
+		playerCards[playerCards.length - 1] = card;
+	}
+
+	public void printCards() {
+		int rewsOfCard = playerCards[0].getDrawCard().getFaceCard().length;
+		for (int i = 0; i < rewsOfCard; i++) {
+			for (int j = 0; j < playerCards.length; j++) {
+				String cardRew = playerCards[j].getDrawCard().getFaceCard()[i];
+				System.out.print(cardRew);
+			}
+			System.out.println();
+		}
+	}
+
 }
